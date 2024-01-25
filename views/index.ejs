@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
+
+
+    <script src="https://api-maps.yandex.ru/v3/?apikey=a1128af3-2ba1-4df5-8189-c617621da4db&lang=en_US"></script>
+    <script src="/maps.js" onload="initMap(<%= weather.coord.lon %>, <%= weather.coord.lat %>)"></script>
+
+</head>
+<body>
+<div class="container">
+    <h1>Weather</h1>
+    <form action="/weather" method="get">
+        <input type="text" name="city" placeholder="Enter city name"/>
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i>
+        </button>
+    </form>
+    <% if (error) { %>
+        <p class="error"><%= error %></p>
+    <% } else if (weather) { %>
+        <div class="card">
+
+            <p>
+                <i class="fas fa-thermometer-half"></i>
+                Temperature: <%= Math.round(weather.main.temp) %>&deg;C
+            </p>
+
+            <p>
+                <i class="fa-solid fa-temperature-low" style="color: #000000;"></i>
+
+                Feels: <%= Math.round(weather.main.feels_like) %>&deg;C
+            </p>
+
+            <p>
+                <i class="fa-solid fa-temperature-full" style="color: #000000;"></i>
+
+                Max: <%= Math.round(weather.main.temp_max) %>&deg;C
+            </p>
+
+            <p>
+                <i class="fa-solid fa-temperature-empty" style="color: #000000;"></i>
+
+                Min: <%= Math.round(weather.main.temp_min) %>&deg;C
+            </p>
+
+
+            <p>
+                <i class="fas fa-cloud"></i>
+                Condition: <%= weather.weather[0].main %>
+            </p>
+
+            <p>
+                <i class="fa-solid fa-droplet"></i>
+                Humidity: <%= weather.main.humidity %>&percnt;
+            </p>
+
+            <p>
+                <i class="fa-solid fa-wind" style="color: #000000;"></i>
+
+                Wind: <%= Math.round(weather.wind.speed) %> km/h
+            </p>
+
+            <p>
+                <i class="fa-solid fa-thermometer"></i>
+
+                Pressure: <%= weather.main.pressure %> hPa
+            </p>
+
+            <p>
+                <i class="fa-solid fa-globe" style="color: #000000;"></i>
+                Lon:<%= weather.coord.lon %>, Lat:<%= weather.coord.lat %>
+            </p>
+
+            <p>
+                <i class="fas fa-map-marker-alt"></i>
+                <%= weather.name %>, <%= weather.sys.country %>
+            </p>
+
+        </div>
+    <% } %>
+</div>
+
+<div id="map" style=" width: 600px; height: 400px; margin: auto; padding: 10px;"></div>
+
+<script src="https://kit.fontawesome.com/b8702983c4.js" crossorigin="anonymous"></script>
+</body>
+</html>
